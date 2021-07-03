@@ -3,10 +3,8 @@ from Classes.card import Card, PokerCard, SpanishCard
 
 class Deck:
     def __init__(self, cardType) -> None:
-        if not issubclass(cardType, Card):
-            raise Exception("The cardType must be a Card class.")
-        if cardType.__class__ == Card:
-            raise Exception("The cardType must not be the prototype, rather a children class of it.")
+        if Card.isValidCard(cardType):
+            raise Exception("The card type selected is not valid")
         
         self._cT = cardType
         self._stack = []
