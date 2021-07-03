@@ -1,6 +1,6 @@
 from card import Card
 
-class cardPlayer:
+class CardPlayer:
     def __init__(self, name="") -> None:
         self._name = name
         self._hand = []
