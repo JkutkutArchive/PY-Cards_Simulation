@@ -46,6 +46,11 @@ class Card:
     def isValidSuit(self, suit) -> bool:
         '''If the suit given is a valid one. It must be the integer equivalent.'''
         return isinstance(suit, int) and suit >= 0 and suit <= len(self.SUIT)
+    
+    @classmethod
+    def isValidCard(cls, cardClass):
+        '''Check if the class entered as an argument is a valid Card class.'''
+        return issubclass(cardClass, cls) and cardClass != cls
 
     
     
