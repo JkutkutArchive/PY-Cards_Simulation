@@ -1,3 +1,4 @@
+import random
 from Classes.card import Card, PokerCard, SpanishCard
 
 class Deck:
@@ -9,23 +10,22 @@ class Deck:
         
         self._cT = cardType
         self._stack = []
-        for s in self.getSuits():
-            for r in self.getRanks():
-                self.getStack().append(cardType(r, s))
+        self.restartStack()
+        
     
-    # ########## GETTERS AND SETTERS ##########
+    # ########## GETTERS ##########
 
     def getStack(self):
         return self._stack
 
-    def getCardType(self):
+    def getCardClass(self):
         return self._cT
 
     def getSuits(self):
-        return range(len(self.getCardType().SUIT))
+        return range(len(self.getCardClass().SUIT))
     
     def getRanks(self):
-        return range(self.getCardType().RANK["MIN"], self.getCardType().RANK["MAX"])
+        return range(self.getCardClass().RANK["MIN"], self.getCardClass().RANK["MAX"] + 1)
 
     def __str__(self) -> str:
         s = []
@@ -33,6 +33,18 @@ class Deck:
         delimeter = ",\n"
         for c in self.getStack():
             s.append(f"{indexing}{c.__str__()}")
-        print(f"[\n{delimeter.join(s)}\n]")
+        return f"[\n{delimeter.join(s)}\n]"
         
-        
+    # ########## SETTERS ##########
+    def restartStack(self):
+        self._stack = []
+        for s in self.getSuits():
+            for r in self.getRanks():
+                self.getStack().append(self.getCardClass()(r, s))
+    
+    def restartShuffleStack(self):
+        self.restartStack()
+        self.shuffle()
+    
+    def shuffleStack(self):
+        random.shuffle(self.getStack())
