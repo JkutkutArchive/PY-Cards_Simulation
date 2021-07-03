@@ -5,7 +5,7 @@ class Card:
     RANKNAME = {}
 
     def __init__(self, rank, suit) -> None:
-        if self.__class__ == Card: # If constructor called from this class
+        if not Card.isValidCardClass(self):
             raise Exception("The class Card can not be initialized, it is a prototype for the rest of the classes.")
         
         # Check arguments
@@ -48,10 +48,14 @@ class Card:
         return isinstance(suit, int) and suit >= 0 and suit <= len(self.SUIT)
     
     @classmethod
-    def isValidCard(cls, cardClass):
+    def isValidCardClass(cls, cardClass):
         '''Check if the class entered as an argument is a valid Card class.'''
-        return issubclass(cardClass, cls) and cardClass != cls
+        return issubclass(cardClass, Card) and cardClass != Card
 
+    @classmethod
+    def isValidCard(cls, card):
+        '''Check if the instance entered as an argument is a valid Card.'''
+        return isinstance(card, Card) and card.__class__ != Card
     
     
 
