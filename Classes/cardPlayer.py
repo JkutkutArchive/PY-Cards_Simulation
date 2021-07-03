@@ -1,8 +1,8 @@
 from card import Card
 
 class cardPlayer:
-    def __init__(self) -> None:
-        self._name = ""
+    def __init__(self, name="") -> None:
+        self._name = name
         self._hand = []
 
 
@@ -20,3 +20,10 @@ class cardPlayer:
         if not Card.isValidCard(card):
             raise Exception("The card is not valid")
         self.getHand().append(card)
+
+    def useCard(self, index):
+        '''Returns the removed card at the given index.'''
+        if not isinstance(index, int) or index < 0 or index < len(self.getHand):
+            raise Exception("The index is not a valid index.")
+        
+        return self.getHand().pop(index)
