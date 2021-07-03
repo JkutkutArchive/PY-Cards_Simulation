@@ -56,7 +56,7 @@ class PokerCard(Card):
         "HEARTS": 2,
         "SPADES": 3
     }
-    SUITNAME = ["CLUBS", "DIAMONDS", "HEARTS", "SPADES"]
+    SUITNAME = ["Clubs", "Diamonds", "Hearts", "Spades"]
     RANK = {
         "MIN": 0, # 0 = Joker
         "MAX": 13
@@ -86,7 +86,7 @@ class SpanishCard(Card):
         "ESPADAS": 2,
         "BASTOS": 3
     }
-    SUITNAME = ["OROS", "COPAS", "ESPADAS", "BASTOS"]
+    SUITNAME = ["Oros", "Copas", "Espadas", "Bastos"]
     RANK = {
         "MIN": 1,
         "MAX": 12
