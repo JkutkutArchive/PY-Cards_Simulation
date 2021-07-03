@@ -2,6 +2,7 @@ class Card:
     SUIT = {}
     SUITNAME = []
     RANK = {}
+    RANKNAME = {}
 
     def __init__(self, rank, suit) -> None:
         if self.__class__ == Card: # If constructor called from this class
@@ -27,6 +28,8 @@ class Card:
         return self._suit
 
     def getRankName(self) -> str:
+        if self.getRank() in self.RANKNAME:
+            return self.RANKNAME[self.getRank()]
         return self.getRank()
     
     def getSuitName(self) -> str:
@@ -61,21 +64,13 @@ class PokerCard(Card):
         "MIN": 0, # 0 = Joker
         "MAX": 13
     }
-
-    # ########## GETTERS AND SETTERS ##########
-
-    def getRankName(self):
-        if self.getRank() == 0:
-            return "Poker"
-        elif self.getRank() == 1:
-            return "Ace"
-        elif self.getRank() == 11:
-            return "Jack"
-        elif self.getRank() == 12:
-            return "Queen"
-        elif self.getRank() == 13:
-            return "King"
-        return super().getRankName()
+    RANKNAME = {
+        0: "Poker",
+        1: "Ace",
+        11: "Jack",
+        12: "Queen",
+        13: "King",
+    }
 
 
 
@@ -91,14 +86,9 @@ class SpanishCard(Card):
         "MIN": 1,
         "MAX": 12
     }
-
-    def getRankName(self) -> str:
-        if self.getRank() == 1:
-            return "As"
-        elif self.getRank() == 10:
-            return "Sota"
-        elif self.getRank() == 11:
-            return "Caballo"
-        elif self.getRank() == 12:
-            return "Rey"
-        return super().getRankName()
+    RANKNAME = {
+        1: "As",
+        10: "Sota",
+        11: "Caballo",
+        12: "Rey"
+    }
