@@ -21,8 +21,7 @@ class SotaP:
             self.getPlayers()[index].takeCard(deck.takeCard())
             index = (index + 1) % nPlayers
 
-        for i in range(nPlayers):
-            print(self.getPlayers()[i])
+        
 
 
     
@@ -32,6 +31,12 @@ class SotaP:
         '''Returns a list with the players in the game'''
         return self._players
 
+
+    def printPlayers(self):
+        '''Prints the current status of the players'''
+        for i in range(self.getPlayers()):
+            print(self.getPlayers()[i])
     
+
     # ########## SETTERS ##########
     
