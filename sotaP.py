@@ -1,4 +1,5 @@
 import random
+from Classes.colorOutput import *
 from Classes.deck import Deck
 from Classes.card import Card, SpanishCard
 from Classes.cardPlayer import CardPlayer
@@ -55,9 +56,25 @@ class SotaP:
 
     # ########## GAME ##########
     def game(self):
+        stack = self.getTableStack()
+        players = self.getPlayers()
+        playersLen = len(players)
         turnIndex = 0
-        while len(self.getPlayers) > 1: # While at least 2 players playing
-            pass
+
+        while playersLen > 1: # While at least 2 players playing
+            stack.append(players[turnIndex].useCard())
+            yield f"{colorOutput('LIGHTBLUE', players[turnIndex].getName())} uses {colorOutput('YELLOW', stack[-1])} => {len(players[turnIndex].getHand())} left"
+
+            if len(players[turnIndex].getHand()) == 0: # If empty hand, remove player
+                players.pop(turnIndex)
+                playersLen = playersLen - 1
+                turnIndex = turnIndex % playersLen
+                continue
+
+
+            turnIndex = (turnIndex + 1) % playersLen
+
+
 
 
 class sotaP_player(CardPlayer):
