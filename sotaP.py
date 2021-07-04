@@ -12,7 +12,7 @@ class SotaP:
         
         self._players = [] # Create player list
         for i in range(nPlayers):
-            self.getPlayers().append(sotaP_player(f"Player{i+1}", 1))
+            self.getPlayers().append(sotaP_player(f"Player{i+1}", i))
 
         deck = Deck(SpanishCard)
 
@@ -24,7 +24,11 @@ class SotaP:
 
 
         self._tableStack = []
-        self.scoreBoard = []
+        # self.scoreBoard = []
+        self.gameStats = {
+            "scoreBoard": [],
+            "iAmThefastest": [0 for _ in range(nPlayers)]
+        }
 
 
     
@@ -73,15 +77,15 @@ class SotaP:
                     if playerIndex > turnIndex:
                         playerIndex = playerIndex - 1
 
-                yield f"  - {colorOutput('RED', players[turnIndex].getName())} has lost"
-                self.scoreBoard.append(players.pop(turnIndex))
+                # yield f"  - {colorOutput('RED', players[turnIndex].getName())} has lost"
+                self.gameStats["scoreBoard"].append(players.pop(turnIndex))
                 playersLen = playersLen - 1
                 turnIndex = turnIndex % playersLen
                 continue
 
             currentCard = players[turnIndex].useCard()
             stack.append(currentCard)
-            yield f"{colorOutput('LIGHTBLUE', players[turnIndex].getName())} uses {colorOutput('YELLOW', currentCard)} => {len(players[turnIndex].getHand())} left"
+            # yield f"{colorOutput('LIGHTBLUE', players[turnIndex].getName())} uses {colorOutput('YELLOW', currentCard)} => {len(players[turnIndex].getHand())} left"
 
             if currentCard.getRank() == stack[len(stack) - 2].getRank() and len(stack) > 1: # If card with same number twice
                 fastest = [0, players[0].getReactionTime()] 
@@ -90,10 +94,12 @@ class SotaP:
                     if reaction < fastest[1]:
                         fastest = [i, reaction]
                 self.giveTableCardsTo(fastest[0]) # Give cards to the fastest
+                pI = players[fastest[0]].index
+                self.gameStats["iAmThefastest"][pI] = self.gameStats["iAmThefastest"][pI] + 1
                 
                 # Reset cardMissionPlayer
                 playerIndex = None
-                yield(f"  - {colorOutput('GREEN', 'SAME')}: {players[fastest[0]].getName()} is the fastest and takes the stack.")
+                # yield(f"  - {colorOutput('GREEN', 'SAME')}: {players[fastest[0]].getName()} is the fastest and takes the stack.")
 
             elif currentCard.getRank() in SPECIALCARDS: # If special card
                 extra = SPECIALCARDS.index(currentCard.getRank()) + 1
@@ -102,7 +108,7 @@ class SotaP:
                 playerIndex = turnIndex
                 
                 turnIndex = (turnIndex + 1) % playersLen # Go to the next player
-                yield f"  - {colorOutput('MAGENTA', 'Special card')} => {players[playerIndex].getName()} gets {extra} cards from {players[turnIndex].getName()}."
+                # yield f"  - {colorOutput('MAGENTA', 'Special card')} => {players[playerIndex].getName()} gets {extra} cards from {players[turnIndex].getName()}."
 
 
             if playerIndex == None:
@@ -111,12 +117,12 @@ class SotaP:
                 cardsMissingByPlayer = cardsMissingByPlayer - 1
                 if cardsMissingByPlayer == -1:
                     self.giveTableCardsTo(playerIndex) # Give cards to the fastest
-                    yield f"  - {players[playerIndex].getName()} takes the stack"
+                    # yield f"  - {players[playerIndex].getName()} takes the stack"
                     playerIndex = None
         
-        self.scoreBoard.append(players.pop()) # Add winer
-        print(*[self.scoreBoard[i].getName() for i in range(len(self.scoreBoard)-1, -1, -1)], sep="\n")
+        self.gameStats["scoreBoard"].append(players.pop()) # Add winner
 
+        yield 0 # Ended without problem
 
 
 
@@ -124,7 +130,8 @@ class sotaP_player(CardPlayer):
     playerReactionTime = [200, 225, 250]
 
     def __init__(self, name, index) -> None:
-        self._reactionTime = self.playerReactionTime[index % 3] # Peak reactionTime
+        self._reactionTime = self.playerReactionTime[1] # Peak reactionTime
+        self.index = index
         super().__init__(name=name)
 
     # ########## GETTERS ##########
