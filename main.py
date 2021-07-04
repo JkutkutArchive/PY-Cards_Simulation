@@ -1,5 +1,6 @@
 from Classes.card import Card, PokerCard, SpanishCard
 from Classes.deck import Deck
+from sotaP import SotaP
 
 if __name__ == '__main__':
     # print("main")
@@ -9,6 +10,9 @@ if __name__ == '__main__':
     # print(a)
 
     # d = Deck(PokerCard)
-    d = Deck(SpanishCard)
-    d.shuffleStack()
-    print(d)
+    # d = Deck(SpanishCard)
+    # d.shuffleStack()
+    # print(d)
+
+    game = SotaP(4)
+    game.printPlayers()

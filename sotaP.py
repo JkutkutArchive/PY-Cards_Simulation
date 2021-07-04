@@ -37,7 +37,6 @@ class SotaP:
         '''Prints the current status of the players'''
         for i in range(len(self.getPlayers())):
             print(self.getPlayers()[i])
-    
 
     def getTableStack(self):
         '''Return a list of all the cards on the "table".'''
