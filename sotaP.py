@@ -24,7 +24,7 @@ class SotaP:
 
 
         self._tableStack = []
-        self._scoreBoard = []
+        self.scoreBoard = []
 
 
     
@@ -60,19 +60,34 @@ class SotaP:
         players = self.getPlayers()
         playersLen = len(players)
         turnIndex = 0
+        cardsMissingByPlayer = 0
 
         while playersLen > 1: # While at least 2 players playing
             stack.append(players[turnIndex].useCard())
             yield f"{colorOutput('LIGHTBLUE', players[turnIndex].getName())} uses {colorOutput('YELLOW', stack[-1])} => {len(players[turnIndex].getHand())} left"
 
+            if stack[len(stack) - 1].getRank() == stack[len(stack) - 2].getRank() and len(stack) > 1:
+                print(f"  - {colorOutput('GREEN', 'SAME')}")
+                fastest = [0, players[0].getReactionTime()]
+                for i in range(1, len(players)):
+                    reaction = players[i].getReactionTime()
+                    if reaction < fastest[1]:
+                        fastest = [i, reaction]
+                
+                yield(f"  - {players[fastest[0]].getName()} is the fastest and takes the stack.")
+
             if len(players[turnIndex].getHand()) == 0: # If empty hand, remove player
-                players.pop(turnIndex)
+                yield f"  - {colorOutput('RED', players[turnIndex].getName())} has lost"
+                self.scoreBoard.append(players.pop(turnIndex))
                 playersLen = playersLen - 1
                 turnIndex = turnIndex % playersLen
                 continue
 
-
-            turnIndex = (turnIndex + 1) % playersLen
+            if cardsMissingByPlayer == 0:
+                turnIndex = (turnIndex + 1) % playersLen # Go to the next player
+        
+        self.scoreBoard.append(players.pop()) # Add winer
+        print(*[self.scoreBoard[i].getName() for i in range(len(self.scoreBoard)-1, -1, -1)], sep="\n")
 
 
 
