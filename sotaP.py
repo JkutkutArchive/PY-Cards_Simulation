@@ -12,7 +12,7 @@ class SotaP:
         
         self._players = [] # Create player list
         for i in range(nPlayers):
-            self.getPlayers().append(sotaP_player(f"Player{i+1}", i % 3))
+            self.getPlayers().append(sotaP_player(f"Player{i+1}", 1))
 
         deck = Deck(SpanishCard)
 
@@ -48,7 +48,7 @@ class SotaP:
     # ########## SETTERS ##########
 
     def giveTableCardsTo(self, playerIndex):
-        if not isinstance(playerIndex) or playerIndex < 0 or playerIndex >= len(self.getPlayers()):
+        if not isinstance(playerIndex, int) or playerIndex < 0 or playerIndex >= len(self.getPlayers()):
             raise Exception("The index of the player is not valid")
         while len(self.getTableStack()) > 0: # Give all cards to the player
             self.getPlayers()[playerIndex].takeCard(self.getTableStack().pop())
@@ -66,15 +66,14 @@ class SotaP:
             stack.append(players[turnIndex].useCard())
             yield f"{colorOutput('LIGHTBLUE', players[turnIndex].getName())} uses {colorOutput('YELLOW', stack[-1])} => {len(players[turnIndex].getHand())} left"
 
-            if stack[len(stack) - 1].getRank() == stack[len(stack) - 2].getRank() and len(stack) > 1:
-                print(f"  - {colorOutput('GREEN', 'SAME')}")
-                fastest = [0, players[0].getReactionTime()]
-                for i in range(1, len(players)):
+            if stack[len(stack) - 1].getRank() == stack[len(stack) - 2].getRank() and len(stack) > 1: # If card with same number twice
+                fastest = [0, players[0].getReactionTime()] 
+                for i in range(1, len(players)): # Get fastest reaction time
                     reaction = players[i].getReactionTime()
                     if reaction < fastest[1]:
                         fastest = [i, reaction]
-                
-                yield(f"  - {players[fastest[0]].getName()} is the fastest and takes the stack.")
+                self.giveTableCardsTo(fastest[0]) # Give cards to the fastest
+                yield(f"  - {colorOutput('GREEN', 'SAME')}: {players[fastest[0]].getName()} is the fastest and takes the stack.")
 
             if len(players[turnIndex].getHand()) == 0: # If empty hand, remove player
                 yield f"  - {colorOutput('RED', players[turnIndex].getName())} has lost"
