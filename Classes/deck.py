@@ -40,7 +40,7 @@ class Deck:
     
     # ########## SETTERS ##########
 
-    def takeCard(self, index=0):
+    def takeCard(self, index=0) -> Card:
         '''Removes and returns a card from the stack. If empty, None is returned.'''
         if not isinstance(index, int) or index < 0 or index >= len(self.getStack()):
             raise Exception("The index is not valid.")
@@ -49,18 +49,18 @@ class Deck:
         return self.getStack().pop(index)
 
 
-    def restartStack(self):
+    def restartStack(self) -> None:
         '''Generates a new ordered stack of cards.'''
         self._stack = []
         for s in self.getSuits():
             for r in self.getRanks():
                 self.getStack().append(self.getCardClass()(r, s))
     
-    def restartShuffleStack(self):
+    def restartShuffleStack(self) -> None:
         '''Generates a new random stack of cards.'''
         self.restartStack()
         self.shuffle()
     
-    def shuffleStack(self):
+    def shuffleStack(self) -> None:
         '''Shuffles the current stack of cards'''
         random.shuffle(self.getStack())
