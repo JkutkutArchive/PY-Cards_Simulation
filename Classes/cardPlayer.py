@@ -19,7 +19,7 @@ class CardPlayer:
     def __str__(self) -> str:
         '''Returns string with the name and the cards of the player.'''
         cards = ',\n  '.join([c.__str__() for c in self.getHand()])
-        return f"- {self.getName()}:\n[  {cards}\n]"
+        return f"- {self.getName()}:\n[ {cards}\n]"
 
     # ########## SETTERS ##########
 
