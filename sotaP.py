@@ -56,24 +56,43 @@ class SotaP:
 
     # ########## GAME ##########
     def game(self):
+        SPECIALCARDS = [10, 11, 12, 1]
         stack = self.getTableStack()
         players = self.getPlayers()
         playersLen = len(players)
+        
         turnIndex = 0
         cardsMissingByPlayer = 0
+        playerIndex = None
 
         while playersLen > 1: # While at least 2 players playing
-            stack.append(players[turnIndex].useCard())
-            yield f"{colorOutput('LIGHTBLUE', players[turnIndex].getName())} uses {colorOutput('YELLOW', stack[-1])} => {len(players[turnIndex].getHand())} left"
+            print((turnIndex, playerIndex))
+            print(*[r.getName() for r in players], sep=", ")
+            currentCard = players[turnIndex].useCard()
+            stack.append(currentCard)
+            yield f"{colorOutput('LIGHTBLUE', players[turnIndex].getName())} uses {colorOutput('YELLOW', currentCard)} => {len(players[turnIndex].getHand())} left"
 
-            if stack[len(stack) - 1].getRank() == stack[len(stack) - 2].getRank() and len(stack) > 1: # If card with same number twice
+            if currentCard.getRank() == stack[len(stack) - 2].getRank() and len(stack) > 1: # If card with same number twice
                 fastest = [0, players[0].getReactionTime()] 
                 for i in range(1, len(players)): # Get fastest reaction time
                     reaction = players[i].getReactionTime()
                     if reaction < fastest[1]:
                         fastest = [i, reaction]
                 self.giveTableCardsTo(fastest[0]) # Give cards to the fastest
+                
+                # Reset cardMissionPlayer
+                playerIndex = None
                 yield(f"  - {colorOutput('GREEN', 'SAME')}: {players[fastest[0]].getName()} is the fastest and takes the stack.")
+
+            elif currentCard.getRank() in SPECIALCARDS: # If special card
+                extra = SPECIALCARDS.index(currentCard.getRank()) + 1
+                
+                cardsMissingByPlayer = extra
+                playerIndex = turnIndex
+                
+                turnIndex = (turnIndex + 1) % playersLen # Go to the next player
+                yield f"  - {colorOutput('MAGENTA', 'Special card')} => {players[playerIndex].getName()} gets {extra} cards from {players[turnIndex].getName()}."
+
 
             if len(players[turnIndex].getHand()) == 0: # If empty hand, remove player
                 yield f"  - {colorOutput('RED', players[turnIndex].getName())} has lost"
@@ -82,8 +101,14 @@ class SotaP:
                 turnIndex = turnIndex % playersLen
                 continue
 
-            if cardsMissingByPlayer == 0:
+            if playerIndex == None:
                 turnIndex = (turnIndex + 1) % playersLen # Go to the next player
+            else:
+                cardsMissingByPlayer = cardsMissingByPlayer - 1
+                if cardsMissingByPlayer == -1:
+                    self.giveTableCardsTo(playerIndex) # Give cards to the fastest
+                    yield f"  - {players[playerIndex].getName()} takes the stack"
+                    playerIndex = None
         
         self.scoreBoard.append(players.pop()) # Add winer
         print(*[self.scoreBoard[i].getName() for i in range(len(self.scoreBoard)-1, -1, -1)], sep="\n")
