@@ -50,6 +50,12 @@ class SotaP:
             raise Exception("The index of the player is not valid")
         while len(self.getTableStack()) > 0: # Give all cards to the player
             self.getPlayers()[playerIndex].takeCard(self.getTableStack().pop())
+    
+
+    # ########## GAME ##########
+    def game(self):
+        while len(self.getPlayers) > 1: # While at least 2 players playing
+            pass
 
 
 class sotaP_player(CardPlayer):
@@ -60,7 +66,10 @@ class sotaP_player(CardPlayer):
         super().__init__(name=name)
 
     # ########## GETTERS ##########
+    
     def getTimeReaction(self):
+        '''Get a reaction time from the player. This value is pheudo-random'''
         return self._reactionTime + random.randint(0, 90)
+
     # ########## SETTERS ##########
     
