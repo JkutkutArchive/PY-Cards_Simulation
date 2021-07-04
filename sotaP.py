@@ -66,8 +66,19 @@ class SotaP:
         playerIndex = None
 
         while playersLen > 1: # While at least 2 players playing
-            print((turnIndex, playerIndex))
-            print(*[r.getName() for r in players], sep=", ")
+
+            if len(players[turnIndex].getHand()) == 0: # If empty hand, remove player
+                if playerIndex != None: # If cardsMissing on
+                    cardsMissingByPlayer = -1
+                    if playerIndex > turnIndex:
+                        playerIndex = playerIndex - 1
+
+                yield f"  - {colorOutput('RED', players[turnIndex].getName())} has lost"
+                self.scoreBoard.append(players.pop(turnIndex))
+                playersLen = playersLen - 1
+                turnIndex = turnIndex % playersLen
+                continue
+
             currentCard = players[turnIndex].useCard()
             stack.append(currentCard)
             yield f"{colorOutput('LIGHTBLUE', players[turnIndex].getName())} uses {colorOutput('YELLOW', currentCard)} => {len(players[turnIndex].getHand())} left"
@@ -93,13 +104,6 @@ class SotaP:
                 turnIndex = (turnIndex + 1) % playersLen # Go to the next player
                 yield f"  - {colorOutput('MAGENTA', 'Special card')} => {players[playerIndex].getName()} gets {extra} cards from {players[turnIndex].getName()}."
 
-
-            if len(players[turnIndex].getHand()) == 0: # If empty hand, remove player
-                yield f"  - {colorOutput('RED', players[turnIndex].getName())} has lost"
-                self.scoreBoard.append(players.pop(turnIndex))
-                playersLen = playersLen - 1
-                turnIndex = turnIndex % playersLen
-                continue
 
             if playerIndex == None:
                 turnIndex = (turnIndex + 1) % playersLen # Go to the next player
