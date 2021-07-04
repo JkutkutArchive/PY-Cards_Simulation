@@ -5,7 +5,7 @@ class Card:
     RANKNAME = {}
 
     def __init__(self, rank, suit) -> None:
-        if not Card.isValidCardClass(self):
+        if not Card.isValidCardClass(self.__class__):
             raise Exception("The class Card can not be initialized, it is a prototype for the rest of the classes.")
         
         # Check arguments
