@@ -40,11 +40,13 @@ class Deck:
     
     # ########## SETTERS ##########
 
-    def takeCard(self):
+    def takeCard(self, index=0):
         '''Removes and returns a card from the stack. If empty, None is returned.'''
-        if len(self.getStack() == 0):
+        if not isinstance(index, int) or index < 0 or index >= len(self.getStack()):
+            raise Exception("The index is not valid.")
+        if len(self.getStack()) == 0:
             return None
-        return self.getStack().pop()
+        return self.getStack().pop(index)
 
 
     def restartStack(self):
