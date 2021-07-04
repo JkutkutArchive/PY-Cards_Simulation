@@ -23,6 +23,7 @@ class SotaP:
 
 
         self._tableStack = []
+        self._scoreBoard = []
 
 
     
@@ -54,6 +55,7 @@ class SotaP:
 
     # ########## GAME ##########
     def game(self):
+        turnIndex = 0
         while len(self.getPlayers) > 1: # While at least 2 players playing
             pass
 
@@ -62,13 +64,17 @@ class sotaP_player(CardPlayer):
     playerReactionTime = [200, 225, 250]
 
     def __init__(self, name, index) -> None:
-        self._reactionTime = self.playerReactionTime[index] # Peak reactionTime
+        self._reactionTime = self.playerReactionTime[index % 3] # Peak reactionTime
         super().__init__(name=name)
 
     # ########## GETTERS ##########
+
+    def getPeakReactionTime(self):
+        '''Returns peak reaction time in milliseconds.'''
+        return self._reactionTime
     
-    def getTimeReaction(self):
-        '''Get a reaction time from the player. This value is pheudo-random'''
+    def getReactionTime(self):
+        '''Get a reaction time from the player. This value is pheudo-random in milliseconds.'''
         return self._reactionTime + random.randint(0, 90)
 
     # ########## SETTERS ##########
