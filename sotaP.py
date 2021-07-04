@@ -1,3 +1,4 @@
+import random
 from Classes.deck import Deck
 from Classes.card import Card, SpanishCard
 from Classes.cardPlayer import CardPlayer
@@ -10,10 +11,9 @@ class SotaP:
         
         self._players = [] # Create player list
         for i in range(nPlayers):
-            self.getPlayers().append(CardPlayer(f"Player{i+1}"))
+            self.getPlayers().append(sotaP_player(f"Player{i+1}", i % 3))
 
         deck = Deck(SpanishCard)
-        # deck.shuffleStack()
 
         # Give all cards to the players
         index = 0
@@ -50,3 +50,17 @@ class SotaP:
             raise Exception("The index of the player is not valid")
         while len(self.getTableStack()) > 0: # Give all cards to the player
             self.getPlayers()[playerIndex].takeCard(self.getTableStack().pop())
+
+
+class sotaP_player(CardPlayer):
+    playerReactionTime = [200, 225, 250]
+
+    def __init__(self, name, index) -> None:
+        self._reactionTime = self.playerReactionTime[index] # Peak reactionTime
+        super().__init__(name=name)
+
+    # ########## GETTERS ##########
+    def getTimeReaction(self):
+        return self._reactionTime + random.randint(0, 90)
+    # ########## SETTERS ##########
+    
