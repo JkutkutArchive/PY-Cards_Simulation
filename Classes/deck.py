@@ -2,13 +2,16 @@ import random
 from Classes.card import Card, PokerCard, SpanishCard
 
 class Deck:
-    def __init__(self, cardType) -> None:
+    def __init__(self, cardType, suffle=True) -> None:
         if not Card.isValidCardClass(cardType):
             raise Exception("The card type selected is not valid")
         
         self._cT = cardType
         self._stack = []
         self.restartStack()
+
+        if suffle:
+            self.shuffleStack()
         
     
     # ########## GETTERS ##########
