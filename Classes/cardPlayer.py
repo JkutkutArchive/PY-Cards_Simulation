@@ -1,4 +1,4 @@
-from card import Card
+from Classes.card import Card
 
 class CardPlayer:
     def __init__(self, name="") -> None:
@@ -12,6 +12,14 @@ class CardPlayer:
         '''Return List with the cards in hand.'''
         return self._hand
 
+    def getName(self) -> str:
+        '''Returns the name of the player.'''
+        return self._name
+    
+    def __str__(self) -> str:
+        '''Returns string with the name and the cards of the player.'''
+        cards = ',\n  '.join([c.__str__() for c in self.getHand()])
+        return f"- {self.getName()}:\n[  {cards}\n]"
 
     # ########## SETTERS ##########
 
