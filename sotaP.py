@@ -156,40 +156,47 @@ if __name__ == '__main__':
     import multiprocessing
 
     # CONSTANTS
-    PLAYERS = 4
-    GAMES = 10
+    PLAYERS = range(3, 8)
+    GAMES = 1000
     
-
-    with open("sotaP_results.csv", 'a') as out:
-            out.write(", ".join([f"{i+1}º position" for i in range(PLAYERS)])) # Store result to file
-            out.write("\n") # Store result to file
-
-    def executeGame(i):
-        game = SotaP(PLAYERS)
-
-        sota = game.game()
-        for _ in sota: # For each step of the game
-            pass # Do it
-
-        # s = f"Game{i} results:\n"
-        # for i in range(len(game.gameStats["scoreBoard"])-1, -1, -1):
-        #     userName = game.gameStats["scoreBoard"][i].getName()
-        #     fastRecordIndex = game.gameStats["scoreBoard"][i].index
-        #     s = s + f"  - {userName} -> {game.gameStats['iAmThefastest'][fastRecordIndex]}\n"
-        # with open("sotaP_results.csv", 'a') as out:
-        #     out.write(s) # Store result to file
-
-        s = []
-        for i in range(len(game.gameStats["scoreBoard"])-1, -1, -1):
-            fastRecordIndex = game.gameStats["scoreBoard"][i].index
-            s.append(str(game.gameStats['iAmThefastest'][fastRecordIndex]))
+    perC = int(100/(8-3))
+    currentP = 0
+    for players in PLAYERS:
+        currentP = currentP + perC
+        print(f"{currentP}%")
+        
         with open("sotaP_results.csv", 'a') as out:
-            out.write(", ".join(s)) # Store result to file
-            out.write("\n") # Store result to file
+                out.write(f"#Table{players - 2}\n")
+                out.write(", ".join([f"{i+1}º position" for i in range(players)])) # Store result to file
+                out.write("\n") # Store result to file
 
-    # EXECUTE
-    num_cores = multiprocessing.cpu_count()
-    
-    results = Parallel(n_jobs=num_cores)(delayed(executeGame)(i) for i in range(GAMES))
-    
-    print("Done")
+        def executeGame(i):
+            game = SotaP(players)
+
+            sota = game.game()
+            for _ in sota: # For each step of the game
+                pass # Do it
+
+            # s = f"Game{i} results:\n"
+            # for i in range(len(game.gameStats["scoreBoard"])-1, -1, -1):
+            #     userName = game.gameStats["scoreBoard"][i].getName()
+            #     fastRecordIndex = game.gameStats["scoreBoard"][i].index
+            #     s = s + f"  - {userName} -> {game.gameStats['iAmThefastest'][fastRecordIndex]}\n"
+            # with open("sotaP_results.csv", 'a') as out:
+            #     out.write(s) # Store result to file
+
+            s = []
+            for i in range(len(game.gameStats["scoreBoard"])-1, -1, -1):
+                fastRecordIndex = game.gameStats["scoreBoard"][i].index
+                s.append(str(game.gameStats['iAmThefastest'][fastRecordIndex]))
+            with open("sotaP_results.csv", 'a') as out:
+                out.write(", ".join(s)) # Store result to file
+                out.write("\n") # Store result to file
+
+        # EXECUTE
+        num_cores = multiprocessing.cpu_count()
+        
+        results = Parallel(n_jobs=num_cores)(delayed(executeGame)(i) for i in range(GAMES))
+
+        with open("sotaP_results.csv", 'a') as out:
+            out.write("\n\n") # Store result to file
