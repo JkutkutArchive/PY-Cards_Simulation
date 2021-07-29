@@ -10,10 +10,10 @@ class Card:
         
         # Check arguments
         if not self.isValidRank(rank):
-            raise Exception(f"Not valid rank. It must be {self.RANK['MIN']} <= rank <= {self.RANK['MIN']}")
+            raise Exception(f"Not valid rank. It must be {self.RANK['MIN']} <= rank <= {self.RANK['MAX']}")
         
         if not self.isValidSuit(suit):
-            raise Exception(f"Not valid suit. It must be {', '.join([i for i in self.SUIT.keys()])}.\n Therefore, 0 <= suit <= {len(self.SUIT)}")
+            raise Exception(f"Not valid suit. It must be {', '.join([i for i in self.SUIT.keys()])}.\n Therefore, 0 <= suit < {len(self.SUIT)}")
         
         # Store them (valid)
         self._rank = rank
@@ -45,7 +45,7 @@ class Card:
     
     def isValidSuit(self, suit) -> bool:
         '''If the suit given is a valid one. It must be the integer equivalent.'''
-        return isinstance(suit, int) and suit >= 0 and suit <= len(self.SUIT)
+        return isinstance(suit, int) and suit >= 0 and suit < len(self.SUIT)
     
     @classmethod
     def isValidCardClass(cls, cardClass):
