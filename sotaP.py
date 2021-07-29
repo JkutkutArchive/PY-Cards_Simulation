@@ -2,7 +2,7 @@ import random
 from Classes.colorOutput import *
 from Classes.deck import Deck
 from Classes.card import Card, SpanishCard
-from Classes.cardPlayer import CardPlayer
+from Classes.playerHand import PlayerHand
 from Classes.deck import Deck
 
 class SotaP:
@@ -126,7 +126,7 @@ class SotaP:
 
 
 
-class sotaP_player(CardPlayer):
+class sotaP_player(PlayerHand):
     playerReactionTime = [200, 225, 250]
 
     def __init__(self, name, index) -> None:

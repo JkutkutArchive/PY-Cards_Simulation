@@ -1,7 +1,7 @@
 import random
 from Classes.colorOutput import *
 from Classes.card import PokerCard
-from Classes.cardPlayer import CardPlayer
+from Classes.playerHand import PlayerHand
 from Classes.deck import Deck
 
 class Poker:
@@ -10,7 +10,7 @@ class Poker:
 
     @classmethod
     def analyze(cls, hand) -> str:
-        if not isinstance(hand, CardPlayer):
+        if not isinstance(hand, PlayerHand):
             raise Exception("The hand given is not valid")
         
         hc = hand.seeCard(0)

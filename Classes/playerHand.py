@@ -39,6 +39,3 @@ class PlayerHand:
             raise Exception("The index is not a valid index.")
         
         return self.getHand().pop(index)
-
-class CardPlayer(PlayerHand):
-    pass

@@ -1,7 +1,7 @@
 from poker import Poker
 from Classes.card import Card, PokerCard, SpanishCard
 from Classes.deck import Deck
-from Classes.cardPlayer import CardPlayer
+from Classes.playerHand import PlayerHand
 from sotaP import SotaP
 
 if __name__ == '__main__':
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     print("Poker testing")
     N = 2
 
-    players = [CardPlayer(name=f"Player{i}") for i in range(N)]
+    players = [PlayerHand(name=f"Player{i}") for i in range(N)]
     cards = [[] for _ in range(N)]
 
     cards[0] = [ # High card
