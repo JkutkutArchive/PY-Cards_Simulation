@@ -10,10 +10,15 @@ class PokerCard(Card):
     SUITNAME = ["Clubs", "Diamonds", "Hearts", "Spades"]
     RANK = {
         "MIN": 0, # 0 = Joker
-        "MAX": 13
+        "MAX": 13,
+
+        "JOKER": 0,
+        "JACK": 11,
+        "QUEEN": 12,
+        "KING": 13
     }
     RANKNAME = {
-        0: "Poker",
+        0: "Joker",
         1: "Ace",
         11: "Jack",
         12: "Queen",
