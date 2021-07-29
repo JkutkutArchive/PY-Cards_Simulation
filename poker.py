@@ -101,22 +101,35 @@ class Poker:
 
         # ========== Check (royal, straight or --) flush, straight or high card ==========
 
-        straight = False # 2 3 4 5 6 
+        straight = True # 2 3 4 5 6 
         royal = False    # A K Q J 10
-        flush = True    # Same suit
+        flush = True     # Same suit
 
         print([i.__str__() for i in sortedHand])
 
         # Check if straight (and royal)
-        # ind = 0
-        # if sortedHand[0].getRank() == 1: # if first is Ace
-        #     pass
+        ind = 1; jokersRemaining = jokers
+        while ind < len(sortedHand):
+            if sortedHand[ind - 1].__getRankPoint__() != sortedHand[ind].__getRankPoint__() + 1: # If not in order
+                print(f"{sortedHand[ind - 1].__str__()} == {sortedHand[ind].__str__()}")
+                print(f"{sortedHand[ind - 1].getRank()} == {sortedHand[ind].getRank() - 1}")
+                
+                if ind == 1 and sortedHand[0].getRank() == sortedHand[-1].getRank() - 1: # If 1º iteration, it can be Ace and two
+                    ind += 1
+                    continue
 
+                straight = False
+                break
+            
+            ind += 1
+
+        if straight:
+            print("STRAIGHT")
 
         # if straight and False: # If straight, check if royal
         #     royal = True
         
-        # Check if flush
+        # Check if flush (Keep in mind, this logic works for flush with jokers!)
         currentSuit = sortedHand[0].getSuit()
         for i in range(1, len(sortedHand)):
             if sortedHand[i].getSuit() != currentSuit:
