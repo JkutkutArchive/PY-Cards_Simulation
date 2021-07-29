@@ -1,3 +1,4 @@
+from Classes.card.card import Card
 from poker import Poker
 from Classes.card.pokerCard import PokerCard
 from Classes.card.spanishCard import SpanishCard
@@ -34,27 +35,44 @@ if __name__ == '__main__':
     # print(game.gameStats["iAmThefastest"])
 
     print("Poker testing")
-    N = 2
 
-    players = [PlayerHand(name=f"Player{i}") for i in range(N)]
-    cards = [[] for _ in range(N)]
+    cards = []
+    players = []
 
-    cards[0] = [ # High card
+    cards.append([ # High card
         PokerCard(2, 0),
         PokerCard(1, 1),
         PokerCard(4, 2),
         PokerCard(10, 2),
         PokerCard(7, 3)
-    ]
-    cards[1] = [ # Pair
+    ])
+
+    cards.append([ # Pair
         PokerCard(1, 0),
         PokerCard(3, 1),
         PokerCard(3, 2),
         PokerCard(10, 2),
         PokerCard(7, 3)
-    ]
+    ])
 
-    for i in range(N): # for each player
+    cards.append([ # 2 pair
+        PokerCard(1, 0),
+        PokerCard(3, 1),
+        PokerCard(3, 2),
+        PokerCard(1, 2),
+        PokerCard(7, 3)
+    ])
+
+    cards.append([ # Tree of a kind
+        PokerCard(1, 0),
+        PokerCard(3, 1),
+        PokerCard(3, 2),
+        PokerCard(10, 2),
+        PokerCard(3, 3)
+    ])
+
+    for i in range(len(cards)): # for each player
+        players.append(PlayerHand(name=f"Player{i}"))
         for j in range(5): # for each card
             players[i].takeCard(cards[i][j])
     
