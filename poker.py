@@ -5,6 +5,19 @@ from Classes.playerHand import PlayerHand
 from Classes.deck import Deck
 
 class Poker:
+    HANDS = {
+        "Royal Flush":     100000000,
+        "Straight Flush":  10000000,
+        "Four of a kind":  1000000,
+        "Full house":      100000,
+        "Flush":           10000,
+        "Straight":        10000,
+        "Three of a kind": 1000,
+        "Two pair":        100,
+        "Pair":            10,
+        "High card":       0
+    }
+
     def __init__(self) -> None:
         pass
 
@@ -34,18 +47,27 @@ class Poker:
             ranks[j+1] = val
         
         i = 1
-        while i < 5:
-            # print(f"{ranks[i - 1]} == {ranks[i]}")
+        pairs = []
+        while i < 5: # Check the array
             if ranks[i - 1] == ranks[i]:
                 l = 2
                 while i + 1 < 5 and ranks[i] == ranks[i + 1]:
                     l += 1
                     i += 1
-                print(f"  Pair of {i}'s -> {l}")
+                # print(f"  Pair of {i}'s -> {l}")
 
+                pairs.append({"rank": ranks[i], "amount": l})
             i += 1
         
-        print(f"the greatest card is the {hc.__str__()}")
+        # print(f"The greatest card is the {hc.__str__()}")
         print(ranks)
+        print(pairs)
 
-        return "\n\n"
+        if len(pairs) == 1: # if pair, 3 of a kind or 4 of a kind
+            return "\n\n"
+        elif len(pairs) == 2: # 2 pair or full house
+            extraP = pairs[0]["rank"] + pairs[1]["rank"]
+
+            return "\n\n"
+        else: # (royal or straight or --) flush, straight or high card
+            return "\n\n"
