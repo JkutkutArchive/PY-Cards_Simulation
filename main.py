@@ -37,6 +37,7 @@ if __name__ == '__main__':
     print("Poker testing")
 
     cards = []
+    spectedScore = []
     players = []
 
     cards.append([ # High card
@@ -46,6 +47,7 @@ if __name__ == '__main__':
         PokerCard(10, 2),
         PokerCard(7, 3)
     ])
+    spectedScore.append(14)
 
     cards.append([ # Pair
         PokerCard(1, 0),
@@ -54,6 +56,7 @@ if __name__ == '__main__':
         PokerCard(10, 2),
         PokerCard(7, 3)
     ])
+    spectedScore.append(103)
 
     cards.append([ # 2 pair
         PokerCard(1, 0),
@@ -62,6 +65,7 @@ if __name__ == '__main__':
         PokerCard(1, 2),
         PokerCard(7, 3)
     ])
+    spectedScore.append(1017)
 
     cards.append([ # Tree of a kind
         PokerCard(1, 0),
@@ -70,10 +74,13 @@ if __name__ == '__main__':
         PokerCard(10, 2),
         PokerCard(3, 3)
     ])
+    spectedScore.append(10003)
 
     for i in range(len(cards)): # for each player
         players.append(PlayerHand(name=f"Player{i}"))
         for j in range(5): # for each card
             players[i].takeCard(cards[i][j])
-    
-        print(Poker.analyze(players[i]))
+
+        p = Poker.analyze(players[i])
+        if p != spectedScore[i]:
+            raise Exception(f"\nAt index {i}, the spectedScore do not match:\n\tSpected: {spectedScore[i]}  Calculated: {p}")
