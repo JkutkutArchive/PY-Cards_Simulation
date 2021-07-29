@@ -11,6 +11,10 @@ class CardPlayer:
     def getHand(self) -> list:
         '''Return List with the cards in hand.'''
         return self._hand
+    
+    def seeCard(self, index):
+        '''Returns the card at the given index.'''
+        return self.getHand()[index]
 
     def getName(self) -> str:
         '''Returns the name of the player.'''
