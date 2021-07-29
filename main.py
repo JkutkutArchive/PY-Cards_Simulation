@@ -76,6 +76,46 @@ if __name__ == '__main__':
     ])
     spectedScore.append(10003)
 
+    # cards.append([ # Straight
+    #     PokerCard(1, 0),
+    #     PokerCard(4, 1),
+    #     PokerCard(2, 2),
+    #     PokerCard(4, 2),
+    #     PokerCard(5, 3)
+    # ])
+    # spectedScore.append(0)
+
+    cards.append([ # Flush
+        PokerCard(1, 1),
+        PokerCard(7, 1),
+        PokerCard(10, 1),
+        PokerCard(6, 1),
+        PokerCard(3, 1)
+    ])
+    spectedScore.append(1000000)
+
+    cards.append([ # Flush + pair
+        PokerCard(1, 1),
+        PokerCard(7, 1),
+        PokerCard(6, 1),
+        PokerCard(6, 1),
+        PokerCard(3, 1)
+    ])
+    spectedScore.append(1000106)
+
+
+
+
+
+    cards.append([ # Four of a kind
+        PokerCard(3, 0),
+        PokerCard(3, 1),
+        PokerCard(3, 2),
+        PokerCard(10, 2),
+        PokerCard(3, 3)
+    ])
+    spectedScore.append(100000003)
+
     for i in range(len(cards)): # for each player
         players.append(PlayerHand(name=f"Player{i}"))
         for j in range(5): # for each card
