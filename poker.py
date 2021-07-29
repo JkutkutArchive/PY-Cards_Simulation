@@ -7,6 +7,7 @@ from Classes.deck import Deck
 
 class Poker:
     HANDS = {
+        "Five of a kind":  100000000000,
         "Royal Flush":     10000000000,
         "Straight Flush":  1000000000,
         "Four of a kind":  100000000,
@@ -26,9 +27,6 @@ class Poker:
     def analyze(cls, hand) -> str:
         if not isinstance(hand, PlayerHand):
             raise Exception("The hand given is not valid")
-
-        print(f"Checking:\n{hand.__str__()}")
-        
         
         # Sort array using insertion sort
         sortedHand = hand.getHand().copy() # Clone the array
@@ -40,32 +38,49 @@ class Poker:
                     j -= 1
             sortedHand[j+1] = val
         
-        i = 1
-        pairs = []
-        while i < 5: # Check the array for pairs
-            if sortedHand[i - 1].getRank() == sortedHand[i].getRank():
+        # Take away the jokers
+        jokers = 0
+        ind = 0
+        while sortedHand[ind].__getRankPoint__() == PokerCard.RANK["MAX"] + 1:
+            if sortedHand[ind].getRank() == PokerCard.RANK["JOKER"]:
+                jokers += 1
+                sortedHand.pop(ind)
+            else:
+                ind += 1
+        print(f"Checking\n{hand.__str__()} with {jokers} jokers")
+        
+        
+        # Check the array for pairs
+        i = 1; pairs = []
+        while i < len(sortedHand): 
+            if sortedHand[i - 1].getRank() == sortedHand[i].getRank(): # if pair found
                 l = 2
-                while i + 1 < 5 and sortedHand[i].getRank() == sortedHand[i + 1].getRank():
-                    l += 1
-                    i += 1
+                while i + 1 < len(sortedHand) and sortedHand[i].getRank() == sortedHand[i + 1].getRank():
+                    l += 1; i += 1 # While the next is also the same rank, keep updating the amount
                 pairs.append({"rank": sortedHand[i].__getRankPoint__(), "amount": l})
             i += 1
 
 
-        hand = None
-        points = 0
+        hand = None # Type of hand at the moment (str)
+        points = 0 # Total points
         extraP = 0 # Extra points
 
-        if len(pairs) == 1: # if pair, 3 of a kind or 4 of a kind
-            l = pairs[0]["amount"]
+        if len(pairs) == 0 and jokers != 0: # If pair not found but jokers in hand
+            # make a new pair with all the jokers
+            pairs.append({"rank": sortedHand[0].__getRankPoint__(), "amount": 1})
+
+        if len(pairs) == 1: # if pair or 3, 4 or 5 of a kind
+            l = pairs[0]["amount"] + jokers
             extraP = pairs[0]["rank"]
             
             if l == 2:
                 hand = "Pair"
             elif l == 3:
                 hand = "Three of a kind"
-            else: # 4
+            elif l == 4:
                 hand = "Four of a kind"
+            elif l == 5:
+                hand = "Five of a kind"
 
             points = Poker.HANDS[hand]
             
@@ -77,33 +92,22 @@ class Poker:
                 pairs[0] = pairs[1]
                 pairs[1] = tmp
             
-            if pairs[0]["amount"] == 2:
+            if pairs[0]["amount"] + jokers == 2:
                 hand = "Two pair"
             else:
                 hand = "Full house"
             
             points = Poker.HANDS[hand]
 
-        # ----------------
-        # Check if (royal, straight or --) flush, straight or high card
+        # ========== Check (royal, straight or --) flush, straight or high card ==========
 
-        royal = False    # A K Q J 10
         straight = False # 2 3 4 5 6 
+        royal = False    # A K Q J 10
         flush = True    # Same suit
 
         print([i.__str__() for i in sortedHand])
 
         # Check if straight (and royal)
-        # jokers = 0
-        # ind = 0
-        # while sortedHand[ind].__getRankPoint__() == PokerCard.RANK["MAX"] + 1:
-        #     if sortedHand[ind].getRank() == PokerCard.RANK["JOKER"]:
-        #         jokers += 1
-        #         sortedHand.pop(0)
-        #     else:
-        #         ind += 1
-        # print(f"Checking for straight with {jokers} jokers")
-
         # ind = 0
         # if sortedHand[0].getRank() == 1: # if first is Ace
         #     pass
@@ -126,7 +130,7 @@ class Poker:
                 else: # If straight flush
                     points = Poker.HANDS["Straight Flush"]
             else: # if flush
-                points += Poker.HANDS["Flush"]
+                points += Poker.HANDS["Flush"] # Added cause it can also have a pair
                 print("Flush")
         
         if not any([royal, straight, flush]) and points == 0: # if high card

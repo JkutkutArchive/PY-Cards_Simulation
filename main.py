@@ -58,6 +58,15 @@ if __name__ == '__main__':
     ])
     spectedScore.append(103)
 
+    cards.append([ # Pair by joker
+        PokerCard(2, 0),
+        PokerCard(3, 1),
+        PokerCard(0, 2),
+        PokerCard(10, 2),
+        PokerCard(7, 3)
+    ])
+    spectedScore.append(110)
+
     cards.append([ # 2 pair
         PokerCard(1, 0),
         PokerCard(3, 1),
@@ -71,6 +80,15 @@ if __name__ == '__main__':
         PokerCard(1, 0),
         PokerCard(3, 1),
         PokerCard(3, 2),
+        PokerCard(10, 2),
+        PokerCard(3, 3)
+    ])
+    spectedScore.append(10003)
+
+    cards.append([ # Tree of a kind by joker
+        PokerCard(1, 0),
+        PokerCard(3, 1),
+        PokerCard(0, 2),
         PokerCard(10, 2),
         PokerCard(3, 3)
     ])
@@ -116,6 +134,25 @@ if __name__ == '__main__':
     ])
     spectedScore.append(100000003)
 
+    cards.append([ # Four of a kind by joker
+        PokerCard(3, 0),
+        PokerCard(0, 1),
+        PokerCard(3, 2),
+        PokerCard(10, 2),
+        PokerCard(3, 3)
+    ])
+    spectedScore.append(100000003)
+
+    cards.append([ # Five of a kind by joker
+        PokerCard(3, 0),
+        PokerCard(3, 1),
+        PokerCard(3, 2),
+        PokerCard(0, 2),
+        PokerCard(3, 3)
+    ])
+    spectedScore.append(100000000003)
+
+    
     for i in range(len(cards)): # for each player
         players.append(PlayerHand(name=f"Player{i}"))
         for j in range(5): # for each card
