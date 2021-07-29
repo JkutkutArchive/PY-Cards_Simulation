@@ -49,7 +49,7 @@ class Poker:
                     i += 1
                 # print(f"  Pair of {i}'s -> {l}")
 
-                pairs.append({"rank": sortedHand[i].getRank(), "amount": l})
+                pairs.append({"rank": sortedHand[i].__getRankPoint__(), "amount": l})
             i += 1
         
         print(f"The greatest card is the {sortedHand[0].__str__()}")
@@ -83,11 +83,13 @@ class Poker:
             else:
                 points = Poker.HANDS["Full house"]
 
-        else: # (royal or straight or --) flush, straight or high card
+        else: # (royal, straight or --) flush, straight or high card
             
             points = sortedHand[0].__getRankPoint__()
         
         points += extraP
 
         print(f"Points: {points}")
-        return "\n\n"
+        
+        print("\n\n")
+        return points -1
