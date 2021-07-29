@@ -1,6 +1,6 @@
 import random
 from Classes.colorOutput import *
-from Classes.card import PokerCard
+from Classes.card.pokerCard import PokerCard
 from Classes.playerHand import PlayerHand
 from Classes.deck import Deck
 
