@@ -1,7 +1,7 @@
 import random
 from Classes.colorOutput import *
 from Classes.deck import Deck
-from Classes.card import Card, SpanishCard
+from Classes.card.spanishCard import SpanishCard
 from Classes.playerHand import PlayerHand
 from Classes.deck import Deck
 

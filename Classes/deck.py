@@ -1,5 +1,5 @@
 import random
-from Classes.card import Card, PokerCard, SpanishCard
+from Classes.card.card import Card
 
 class Deck:
     def __init__(self, cardType, suffle=True) -> None:

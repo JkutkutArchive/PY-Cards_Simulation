@@ -1,5 +1,6 @@
 from poker import Poker
-from Classes.card import Card, PokerCard, SpanishCard
+from Classes.card.pokerCard import PokerCard
+from Classes.card.spanishCard import SpanishCard
 from Classes.deck import Deck
 from Classes.playerHand import PlayerHand
 from sotaP import SotaP

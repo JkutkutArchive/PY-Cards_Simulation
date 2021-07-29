@@ -14,5 +14,7 @@ class Poker:
             raise Exception("The hand given is not valid")
         
         hc = hand.seeCard(0)
-        print(hc)
-        print(hand)
+        
+        for c in hand.getHand():
+            
+            pass
