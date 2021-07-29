@@ -1,6 +1,6 @@
 from Classes.card import Card
 
-class CardPlayer:
+class PlayerHand:
     def __init__(self, name="") -> None:
         self._name = name
         self._hand = []
@@ -39,3 +39,6 @@ class CardPlayer:
             raise Exception("The index is not a valid index.")
         
         return self.getHand().pop(index)
+
+class CardPlayer(PlayerHand):
+    pass
