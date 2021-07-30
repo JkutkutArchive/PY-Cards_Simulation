@@ -108,43 +108,62 @@ class Poker:
         print([i.__str__() for i in sortedHand])
 
         # Check if straight (and royal)
-        ind = 1; jokersRemaining = jokers
-        while ind < len(sortedHand):
-            if sortedHand[ind - 1].__getRankPoint__() != sortedHand[ind].__getRankPoint__() + 1: # If not in order
-                print(f"{sortedHand[ind - 1].__str__()} == {sortedHand[ind].__str__()}")
-                print(f"{sortedHand[ind - 1].getRank()} == {sortedHand[ind].getRank() - 1}")
-                
-                if ind == 1 and sortedHand[0].getRank() == sortedHand[-1].getRank() - 1: # If 1º iteration, it can be Ace and two
-                    ind += 1
-                    continue
-
+        ace = False; ind = 0
+        if sortedHand[0].getRank() == 1:
+            ace = True; ind = 1
+        
+        currentRank = sortedHand[ind].getRank()
+        for i in range(ind + 1, len(sortedHand)):
+            r = sortedHand[i].getRank()
+            if currentRank == (r + 1) % 14: # If valid order so far
+                currentRank = r
+                continue
+            else:
+                if ace and sortedHand[-1].getRank() == 2: # If starting again
+                    currentRank = 2
+                    for i in range(len(sortedHand) - 2, i, -1):
+                        r = sortedHand[i].getRank()
+                        if currentRank == r - 1:
+                            continue
+                        else:
+                            straight = False
+                            break
+                    break # end the loop. Now we should be sure if the 
                 straight = False
                 break
             
-            ind += 1
-
         if straight:
-            print("STRAIGHT")
-
-        # if straight and False: # If straight, check if royal
-        #     royal = True
+            print("Straight!!!")
+        else:
+            print("Not straight!!!")
         
+
         # Check if flush (Keep in mind, this logic works for flush with jokers!)
         currentSuit = sortedHand[0].getSuit()
         for i in range(1, len(sortedHand)):
             if sortedHand[i].getSuit() != currentSuit:
                 flush = False
                 break
-        
+
+        if straight and flush and sortedHand[0] == 1 and sortedHand[1] == 10: # If straight, check if royal
+                royal = True
+            
         if flush:
             if straight:
+                extraP = sortedHand[0].__getRankPoint__()
                 if royal: # If royal flush
                     points = Poker.HANDS["Royal Flush"]
                 else: # If straight flush
                     points = Poker.HANDS["Straight Flush"]
             else: # if flush
+                if extraP == 0: # If not added previously (having a pair, 3 of a kind...)
+                    extraP = sortedHand[0].__getRankPoint__()
                 points += Poker.HANDS["Flush"] # Added cause it can also have a pair
                 print("Flush")
+        elif straight: # If normal flush
+            extraP = sortedHand[0].__getRankPoint__()
+            points = Poker.HANDS["Straight"]
+            print("Straight")
         
         if not any([royal, straight, flush]) and points == 0: # if high card
             points = sortedHand[0].__getRankPoint__()
