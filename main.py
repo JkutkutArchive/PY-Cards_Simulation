@@ -101,11 +101,25 @@ if __name__ == '__main__':
         PokerCard(3, 2),
         PokerCard(5, 3)
     ])
-    spectedScore.append(0)
+    spectedScore.append(100014)
 
+    cards.append([ # Straight 2
+        PokerCard(4, 0),
+        PokerCard(6, 1),
+        PokerCard(5, 2),
+        PokerCard(7, 2),
+        PokerCard(8, 3)
+    ])
+    spectedScore.append(100008)
 
-
-
+    cards.append([ # Straight 3
+        PokerCard(13, 0),
+        PokerCard(12, 1),
+        PokerCard(1, 2),
+        PokerCard(2, 2),
+        PokerCard(3, 3)
+    ])
+    spectedScore.append(100014)
 
     cards.append([ # Flush
         PokerCard(1, 1),
@@ -114,7 +128,7 @@ if __name__ == '__main__':
         PokerCard(6, 1),
         PokerCard(3, 1)
     ])
-    spectedScore.append(1000000)
+    spectedScore.append(1000014)
 
     cards.append([ # Flush by joker + pair
         PokerCard(1, 1),
