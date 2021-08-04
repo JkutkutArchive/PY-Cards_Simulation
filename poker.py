@@ -109,8 +109,10 @@ class Poker:
 
         # Check if straight (and royal)
         ind = 0; remainingJokers = jokers
+
         for i in range(len(sortedHand)):
-            currentRank = sortedHand[i].getRank()            
+            currentRank = sortedHand[i].getRank()
+
             minDist = 20 # infinity
             for j in range(len(sortedHand)):
                 if i == j: continue
@@ -126,12 +128,19 @@ class Poker:
                     break # No straight (0) or valid (1)
             
             if minDist > 1 and minDist - remainingJokers <= 1: # If distance can be fixed by using jokers
-                remainingJokers -= minDist
+                remainingJokers -= minDist - 1
                 minDist = 1 # Now valid dist
 
             if minDist != 1:
                 straight = False
                 break
+        
+        maxCard = sortedHand[0].__getRankPoint__()
+        print([maxCard, remainingJokers])
+        if straight and remainingJokers > 0: # If logic ended and still straight => straight
+            maxCard += remainingJokers # If jokers still remaining, level up the straight score
+            if maxCard > 14: maxCard = 14
+        print([maxCard, remainingJokers])
         
 
         # Check if flush (Keep in mind, this logic works for flush with jokers!)
@@ -141,26 +150,26 @@ class Poker:
                 flush = False
                 break
 
-        if straight and flush and sortedHand[0] == 1 and sortedHand[1] == 10: # If straight, check if royal
+        if straight and flush and maxCard == 14 and sortedHand[-1].getRank() == 10: # If straight, check if royal
             royal = True
             
         if flush:
             if straight:
-                extraP = sortedHand[0].__getRankPoint__()
+                extraP = maxCard
                 if royal: # If royal flush
                     points = Poker.HANDS["Royal Flush"]
                     print("Royal flush")
                 else: # If straight flush
                     points = Poker.HANDS["Straight Flush"]
-                    print("Straight flush")
 
             else: # if flush
                 if extraP == 0: # If not added previously (having a pair, 3 of a kind...)
                     extraP = sortedHand[0].__getRankPoint__()
                 points += Poker.HANDS["Flush"] # Added cause it can also have a pair
         elif straight: # If normal flush
-            extraP = sortedHand[0].__getRankPoint__()
+            extraP = maxCard
             points = Poker.HANDS["Straight"]
+            print(maxCard)
         
         if not any([royal, straight, flush]) and points == 0: # if high card
             points = sortedHand[0].__getRankPoint__()
