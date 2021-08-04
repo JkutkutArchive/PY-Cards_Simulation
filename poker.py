@@ -142,24 +142,25 @@ class Poker:
                 break
 
         if straight and flush and sortedHand[0] == 1 and sortedHand[1] == 10: # If straight, check if royal
-                royal = True
+            royal = True
             
         if flush:
             if straight:
                 extraP = sortedHand[0].__getRankPoint__()
                 if royal: # If royal flush
                     points = Poker.HANDS["Royal Flush"]
+                    print("Royal flush")
                 else: # If straight flush
                     points = Poker.HANDS["Straight Flush"]
+                    print("Straight flush")
+
             else: # if flush
                 if extraP == 0: # If not added previously (having a pair, 3 of a kind...)
                     extraP = sortedHand[0].__getRankPoint__()
                 points += Poker.HANDS["Flush"] # Added cause it can also have a pair
-                print("Flush")
         elif straight: # If normal flush
             extraP = sortedHand[0].__getRankPoint__()
             points = Poker.HANDS["Straight"]
-            print("Straight")
         
         if not any([royal, straight, flush]) and points == 0: # if high card
             points = sortedHand[0].__getRankPoint__()

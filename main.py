@@ -215,9 +215,55 @@ if __name__ == '__main__':
     ])
     spectedScore.append(100000003)
 
+    cards.append([ # Straight flush
+        PokerCard(5, 1),
+        PokerCard(6, 1),
+        PokerCard(7, 1),
+        PokerCard(8, 1),
+        PokerCard(9, 1)
+    ])
+    spectedScore.append(1000000009)
+
+    cards.append([ # Straight flush by joker
+        PokerCard(5, 1),
+        PokerCard(6, 1),
+        PokerCard(0, 2),
+        PokerCard(8, 1),
+        PokerCard(9, 1)
+    ])
+    spectedScore.append(1000000009)
+
+    cards.append([ # Straight flush by 2 jokers
+        PokerCard(5, 1),
+        PokerCard(6, 1),
+        PokerCard(0, 2),
+        PokerCard(8, 1),
+        PokerCard(0, 1)
+    ])
+    spectedScore.append(1000000008)
+
+    cards.append([ # Royal flush
+        PokerCard(1, 1),
+        PokerCard(13, 1),
+        PokerCard(12, 1),
+        PokerCard(11, 1),
+        PokerCard(10, 1)
+    ])
+    spectedScore.append(10000000014)
+
+
     cards.append([ # Five of a kind by joker
         PokerCard(3, 0),
         PokerCard(3, 1),
+        PokerCard(3, 2),
+        PokerCard(0, 2),
+        PokerCard(3, 3)
+    ])
+    spectedScore.append(100000000003)
+
+    cards.append([ # Five of a kind by 2 jokers
+        PokerCard(3, 0),
+        PokerCard(0, 1),
         PokerCard(3, 2),
         PokerCard(0, 2),
         PokerCard(3, 3)
