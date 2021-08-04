@@ -85,16 +85,16 @@ class Poker:
             points = Poker.HANDS[hand]
             
         elif len(pairs) == 2: # 2 pair or full house
-            extraP = pairs[0]["rank"] + pairs[1]["rank"]
-
             if pairs[0]["amount"] < pairs[1]["amount"]: # Full house inverted => invert array
                 tmp = pairs[0]
                 pairs[0] = pairs[1]
                 pairs[1] = tmp
             
             if pairs[0]["amount"] + jokers == 2:
+                extraP = pairs[0]["rank"] + pairs[1]["rank"]
                 hand = "Two pair"
             else:
+                extraP = 2 * pairs[0]["rank"] + pairs[1]["rank"]
                 hand = "Full house"
             
             points = Poker.HANDS[hand]

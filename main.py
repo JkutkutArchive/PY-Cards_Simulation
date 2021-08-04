@@ -178,16 +178,24 @@ if __name__ == '__main__':
     ])
     spectedScore.append(1000106)
 
-    # cards.append([ # Full house
-    #     PokerCard(2, 1),
-    #     PokerCard(2, 2),
-    #     PokerCard(2, 3),
-    #     PokerCard(3, 1),
-    #     PokerCard(3, 2)
-    # ])
-    # spectedScore.append(0)
+    # Full house
+    cards.append([ # Full house
+        PokerCard(2, 1),
+        PokerCard(2, 2),
+        PokerCard(2, 3),
+        PokerCard(3, 1),
+        PokerCard(3, 2)
+    ])
+    spectedScore.append(10000007)
 
-
+    cards.append([ # Full house by joker
+        PokerCard(2, 1),
+        PokerCard(2, 2),
+        PokerCard(0, 3),
+        PokerCard(3, 1),
+        PokerCard(3, 2)
+    ])
+    spectedScore.append(10000008)
 
     cards.append([ # Four of a kind
         PokerCard(3, 0),
@@ -225,3 +233,5 @@ if __name__ == '__main__':
         p = Poker.analyze(players[i])
         if p != spectedScore[i]:
             raise Exception(f"\nAt index {i}, the spectedScore do not match:\n\tSpected: {spectedScore[i]}  Calculated: {p}")
+
+    print("Testing ended")
