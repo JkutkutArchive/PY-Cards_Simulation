@@ -121,6 +121,26 @@ if __name__ == '__main__':
     ])
     spectedScore.append(100014)
 
+    cards.append([ # Straight 4 by joker
+        PokerCard(13, 0),
+        PokerCard(0, 1),
+        PokerCard(1, 2),
+        PokerCard(2, 2),
+        PokerCard(3, 3)
+    ])
+    spectedScore.append(100014)
+
+    cards.append([ # Straight 4 by joker
+        PokerCard(13, 0),
+        PokerCard(12, 1),
+        PokerCard(1, 2),
+        PokerCard(0, 2),
+        PokerCard(3, 3)
+    ])
+    spectedScore.append(100014)
+
+
+
     cards.append([ # Flush
         PokerCard(1, 1),
         PokerCard(7, 1),
@@ -157,7 +177,14 @@ if __name__ == '__main__':
     ])
     spectedScore.append(1000106)
 
-
+    # cards.append([ # Full house
+    #     PokerCard(2, 1),
+    #     PokerCard(2, 2),
+    #     PokerCard(2, 3),
+    #     PokerCard(3, 1),
+    #     PokerCard(3, 2)
+    # ])
+    # spectedScore.append(0)
 
 
 

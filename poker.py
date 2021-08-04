@@ -1,5 +1,5 @@
-from Classes.card.card import Card
 import random
+from Classes.card.card import Card
 from Classes.colorOutput import *
 from Classes.card.pokerCard import PokerCard
 from Classes.playerHand import PlayerHand
@@ -108,29 +108,66 @@ class Poker:
         print([i.__str__() for i in sortedHand])
 
         # Check if straight (and royal)
-        ace = False; ind = 0
-        if sortedHand[0].getRank() == 1:
-            ace = True; ind = 1
-        
-        currentRank = sortedHand[ind].getRank()
-        for i in range(ind + 1, len(sortedHand)):
-            r = sortedHand[i].getRank()
-            if currentRank == (r + 1) % 14: # If valid order so far
-                currentRank = r
-                continue
-            else:
-                if ace and sortedHand[-1].getRank() == 2: # If starting again
-                    currentRank = 2
-                    for i in range(len(sortedHand) - 2, i, -1):
-                        r = sortedHand[i].getRank()
-                        if currentRank == r - 1:
-                            continue
-                        else:
-                            straight = False
-                            break
-                    break # end the loop. Now we should be sure if the 
+        ind = 0; remainingJokers = jokers
+        for i in range(len(sortedHand)):
+            currentRank = sortedHand[i].getRank()            
+            minDist = 20 # infinity
+            for j in range(len(sortedHand)):
+                if i == j: continue
+
+                rank = sortedHand[j].getRank()
+
+                relativeDist = abs(currentRank - rank)
+                for k in range(-14, 15, 28): # -14 and 14
+                    relativeRank = rank + k
+                    relativeDist = min(relativeDist, abs(currentRank - relativeRank))
+                minDist = min(minDist, relativeDist)
+                if minDist <= 1:
+                    break # No straight (0) or valid (1)
+            
+            if minDist > 1 and minDist - remainingJokers <= 0: # If distance can be fixed by using jokers
+                remainingJokers -= minDist
+                minDist = 1 # Now valid dist
+
+            if minDist != 1:
                 straight = False
                 break
+
+
+        # ace = False; ind = 0; remainingJokers = jokers
+        # if sortedHand[0].getRank() == 1 and \
+        #    (sortedHand[1].getRank() == 13 or sortedHand[-1].getRank() == 2): # if ace and (king or 2)
+        #     ace = True; ind = 1
+        
+        # currentRank = sortedHand[ind].getRank()
+        # for i in range(ind + 1, len(sortedHand)):
+        #     r = sortedHand[i].getRank()
+        #     if currentRank == (r + 1) % 14: # If valid order so far
+        #         currentRank = r
+        #         continue
+        #     else:
+        #         if ace and sortedHand[-1].getRank() == 2: # If starting again
+        #             currentRank = 1
+        #             for i in range(len(sortedHand) - 1, i, -1):
+        #                 r = sortedHand[i].getRank()
+        #                 if currentRank == r - 1:
+        #                     currentRank = r
+        #                     continue
+        #                 else:
+        #                     if remainingJokers > 0:
+        #                         remainingJokers -= 1
+        #                         currentRank = r
+        #                         continue
+        #                     straight = False
+        #                     break
+        #             break # end the loop. Now we should be sure if straight
+        #         if remainingJokers > 0:
+        #             remainingJokers -= 1
+        #             currentRank = r
+        #             continue
+
+        #         straight = False
+        #         break
             
         if straight:
             print("Straight!!!")
