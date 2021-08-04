@@ -94,6 +94,7 @@ if __name__ == '__main__':
     ])
     spectedScore.append(10003)
 
+    # STRAIGHT
     cards.append([ # Straight
         PokerCard(1, 0),
         PokerCard(4, 1),
@@ -130,7 +131,7 @@ if __name__ == '__main__':
     ])
     spectedScore.append(100014)
 
-    cards.append([ # Straight 4 by joker
+    cards.append([ # Straight 5 by joker
         PokerCard(13, 0),
         PokerCard(12, 1),
         PokerCard(1, 2),
